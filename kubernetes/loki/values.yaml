@@ -1,0 +1,18 @@
+# kubernetes/loki/values.yaml
+loki:
+  persistence:
+    enabled: true
+    accessModes:
+      - ReadWriteOnce
+    size: 5Gi
+  resources:
+    requests:
+      memory: 256Mi
+      cpu: 100m
+    limits:
+      memory: 512Mi
+      cpu: 200m
+
+promtail:
+  # Deploying as a DaemonSet to run on every node[cite: 1]
+  kind: DaemonSet

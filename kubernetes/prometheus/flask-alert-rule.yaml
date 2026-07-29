@@ -1,0 +1,21 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: flask-app-alerts
+  namespace: observability
+  labels:
+    # Changed to match the Helm chart's expected selectors
+    release: prometheus
+    app: kube-prometheus-stack
+spec:
+  groups:
+  - name: application-alerts
+    rules:
+    - alert: HighTrafficVolume
+      expr: sum(rate(flask_app_requests_total[1m])) > 0
+      for: 10s
+      labels:
+        severity: critical
+      annotations:
+        summary: "Flask App is receiving traffic"
+        description: "The application is actively being hit by traffic requests."

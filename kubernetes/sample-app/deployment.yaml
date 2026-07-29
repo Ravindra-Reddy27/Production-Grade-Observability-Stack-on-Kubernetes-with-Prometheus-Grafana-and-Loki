@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flask-app
+  namespace: observability
+  labels:
+    app: flask-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: flask-app
+  template:
+    metadata:
+      labels:
+        app: flask-app
+    spec:
+      containers:
+      - name: flask-app
+        image: flask-app:v1
+        imagePullPolicy: IfNotPresent
+        ports:
+        - name: http-metrics
+          containerPort: 5000
+        # Resource Requests & Limits
+        resources:
+          requests:
+            memory: "128Mi"
+            cpu: "100m"
+          limits:
+            memory: "256Mi"
+            cpu: "250m"
+        # Health Probes pointing to /hello endpoint
+        livenessProbe:
+          httpGet:
+            path: /hello
+            port: 5000
+          initialDelaySeconds: 5
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /hello
+            port: 5000
+          initialDelaySeconds: 5
+          periodSeconds: 10

@@ -1,0 +1,21 @@
+# kubernetes/prometheus/values.yaml
+prometheus:
+  prometheusSpec:
+    # 1. Persistent Storage (PVC)
+    storageSpec:
+      volumeClaimTemplate:
+        spec:
+          accessModes: ["ReadWriteOnce"]
+          resources:
+            requests:
+              storage: 5Gi
+    # 2. Resource Limits & Requests[cite: 1]
+    resources:
+      requests:
+        memory: 400Mi
+        cpu: 200m
+      limits:
+        memory: 800Mi
+        cpu: 500m
+    # 3. Enable ServiceMonitor discovery[cite: 1]
+    serviceMonitorSelectorNilUsesHelmValues: false
