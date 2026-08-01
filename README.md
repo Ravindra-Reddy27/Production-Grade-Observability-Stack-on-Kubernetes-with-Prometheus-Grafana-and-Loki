@@ -137,6 +137,13 @@ helm install prometheus prometheus-community/kube-prometheus-stack `
   --values kubernetes/prometheus/values.yaml
 ```
 
+wait 4-5 minutes for Pods running.
+
+Verify the deployment and Pod status:
+```bash
+kubectl get pods -n observability
+```
+
 ## Install Loki & Promtail
 
 ```bash
@@ -144,12 +151,14 @@ helm install loki grafana/loki-stack `
   --namespace observability `
   --values kubernetes/loki/values.yaml
 ```
+wait 2-3 minutes for Pods running.
 
 Verify the deployment:
-
 ```bash
 kubectl get pods -n observability
 ```
+
+
 
 ---
 
